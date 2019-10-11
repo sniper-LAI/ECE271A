@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \documentclass[12pt,letterpaper]{article}
+    \usepackage{fullpage}
+    \usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+    \usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+    \usepackage{lastpage}
+    \usepackage{enumerate}
+    \usepackage{fancyhdr}
+    \usepackage{mathrsfs}
+    \usepackage{xcolor}
+    \usepackage{graphicx}
+    \usepackage{listings}
+    \usepackage{hyperref}
+    
+    \hypersetup{%
+      colorlinks=true,
+      linkcolor=blue,
+      linkbordercolor={0 0 1}
+    }
+    
+    \setlength{\parindent}{0.0in}
+    \setlength{\parskip}{0.05in}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%%%%%%%%% CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \newcommand\course{ECE 271A}
+    \newcommand\semester{Fall 2019}
+    \newcommand\hwnumber{\#1}                 % <-- ASSIGNMENT #
+    \newcommand\NetIDa{Jiaming Lai}           % <-- YOUR NAME
+    \newcommand\NetIDb{A53314574}           % <-- STUDENT ID #
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \pagestyle{fancyplain}
+    \headheight 35pt
+    \lhead{\NetIDa}
+    \lhead{\NetIDa\\\NetIDb}                 
+    \chead{\textbf{\Large Assignment \hwnumber}}
+    \rhead{\course \\ \semester}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{\small\thepage}
+    \headsep 1.5em
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    \begin{document}
+     
+    \section*{Computer Problem Solution}
+    % If the Problem is divided into items, use "enumerate"
+    \begin{enumerate}[a)]
+        \item 
+        Using the training data in \textbf{TrainingSamplesDCT8.mat}, what are reasonable estimates for the prior probabilities?
+        
+        \textbf{Solution}:\\
+        Two priors probabilities, $P_Y(cheetah)$ and $P_Y(grass)$, could be estimated based on the number of vectors in the training set.
+        The estimation of $P_Y(cheetah)$ and $P_Y(grass)$ are: 
+        \begin{equation}
+            P_Y(cheetah) = N_{FG} / (N_{FG} + N_{BG})
+        \end{equation}
+        \begin{equation}
+            P_Y(grass) = N_{BG} / (N_{FG} + N_{BG})
+        \end{equation}
+        where 
+        \begin{itemize}
+            \item[] $N_{BG}$ is the number of vectors in matrix \textbf{TrainsampleDCT\_BG}
+            \item[] $N_{FG}$ is the number of vectors in matrix \textbf{TrainsampleDCT\_FG}
+        \end{itemize}
+        
+        \item 
+        Using the training data in \textbf{TrainingSamplesDCT8.mat}, compute and plot the index histograms
+        $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$. 
+        
+        \textbf{Solution}:\\
+        The index histograms is the following picture:
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=0.28]{Images/histograms.jpg}
+            \caption{index histograms}
+        \end{figure}\\
+        The value of $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is showed as following histograms:
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=0.28]{Images/histograms.jpg}
+            \caption{index histograms}
+        \end{figure}
+        \begin{enumerate}[1.]
+            \item 
+            \begin{equation}
+                \forall n(P(n) \rightarrow Q(n)),
+            \end{equation}
+           where
+           \begin{itemize}
+                \item[] $P(n)$ is ``$n$ is an odd integer'' and
+                \item[] $Q(n)$ is ``$n^2$ is odd.''
+           \end{itemize}
+            
+            \item 
+            Assume $P(n)$  is true.
+            
+            \item 
+            By definition, an odd integer is $n = 2k + 1$, 
+            where $k$ is some integer.
+    
+            \item
+            \begin{align*}
+                n^2 &= (2k + 1)^2 \\
+                    &= 4k^2 + 4k + 1 \\
+                    &=  2(2k^2 + 2k) + 1
+            \end{align*}
+            
+            \item 
+            $\therefore n^2$ is an odd integer. $\qed$
+        \end{enumerate}
+        
+        
+    
+        \item Let $A = \{1,2,3\}$ and $B = \{1,2,3,\{1,2,3\}\}$:
+            
+        Then, $A \in B$ and $A \subseteq B$.
+        
+        \item Let $A = \{1, 3, 5\}$, $B = \{1,2,3,\}$, and universe $U = \{1,2,3,4,5\}$:
+        \begin{align*}
+            A \cup B    &= \{1,2,3,5\}, \\
+            A \cap B    &= \{1,3\}, \\
+            A - B       &= \{5\},\\
+            \bar{A}     &= \{2,4\},\\
+            A - A       &= \emptyset .
+        \end{align*}
+    
+    \end{enumerate}
+    
+    \end{document}

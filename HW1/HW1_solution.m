@@ -1,5 +1,4 @@
 clear all
-format long
 %%
 %Training
 %Read the TrainingSamplesDCT_8.mat file
@@ -32,13 +31,13 @@ h1 = histogram(N_BG);
 ylim([0, 500]); 
 ylabel('Frequency', 'interpreter', 'latex','FontSize', 10);
 xlabel('Index', 'interpreter', 'latex'); 
-title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
+title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
 subplot(2,1,2);
 h2 = histogram(N_FG);
 ylim([0, 50]);
 ylabel('Frequency', 'interpreter', 'latex','FontSize', 10);
 xlabel('Index', 'interpreter', 'latex'); 
-title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
+title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
 %Save the statistic data
 F_x_BG = zeros(1,64);
 F_x_BG(min(N_BG):max(N_BG)) = h1.Values;
@@ -46,14 +45,36 @@ F_x_FG = zeros(1,64);
 F_x_FG(min(N_FG):max(N_FG)) = h2.Values;
 %Save the histogram figure
 set(gcf,'Position',[400,100,900,600]);
-saveas(gcf, ['Images/histograms.jpg']);
+saveas(gcf, ['Images/histograms1.jpg']);
 close(gcf);
 
-%Calculate the estimation of class-conditionals for two classes and priors probabilities
-P_x_BG = F_x_BG ./ sum(F_x_BG);
-P_x_FG = F_x_FG ./ sum(F_x_FG);
-P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
-P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
+% %Calculate the estimation of class-conditionals for two classes and priors probabilities
+% P_x_BG = F_x_BG ./ sum(F_x_BG);
+% P_x_FG = F_x_FG ./ sum(F_x_FG);
+% P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
+% P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
+% %Plot the histogram
+% subplot(2,1,1);
+% h1 = histogram(P_x_BG);
+% ylim([0, 500]); 
+% ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
+% xlabel('Index', 'interpreter', 'latex'); 
+% title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
+% subplot(2,1,2);
+% h2 = histogram(P_x_FG);
+% ylim([0, 50]);
+% ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
+% xlabel('Index', 'interpreter', 'latex'); 
+% title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
+% %Save the statistic data
+% F_x_BG = zeros(1,64);
+% F_x_BG(min(N_BG):max(N_BG)) = h1.Values;
+% F_x_FG = zeros(1,64);
+% F_x_FG(min(N_FG):max(N_FG)) = h2.Values;
+% %Save the histogram figure
+% set(gcf,'Position',[400,100,900,600]);
+% saveas(gcf, ['Images/histograms2.jpg']);
+% close(gcf);
 
 %Read original image
 I = imread('dataset/cheetah.bmp');
@@ -70,23 +91,30 @@ for i=1:1:loop_row
         DCT_block = dct2(block);
         DCT_block = abs(DCT_block);
         [x,y] = find(DCT_block==max(DCT_block(:))); % Find the largest coefficient
-        DCT_block(x,y) = -1; % Set the largest value as -Inf
+        DCT_block(x,y) = -1; % Set the largest value as -1
         [x,y] = find(DCT_block==max(DCT_block(:))); % Find the second largest coefficient and its position
         feature = position_ref(x,y) + 1;
         %Decide the binary mask
         %Before decide the mask, we should caluate two class-conditionals
         P_FG_Decision = P_x_FG(1,feature) * P_FG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
         P_BG_Decision = P_x_BG(1,feature) * P_BG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
+%         P_FG_Decision = P_x_FG(1,feature) / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
+%         P_BG_Decision = P_x_BG(1,feature) / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
         if P_FG_Decision >= P_BG_Decision
             mask(i,j) = 1;
         end
     end
 end
+
 subplot(1,2,1)
 I = imread('dataset/cheetah_mask.bmp');
+I = im2double(I);
 imshow(I);
 subplot(1,2,2)
 imshow(mask);
+%Calculate the probability of error
+error = length(find((mask-I)~=0)) / (size(I,1) * size(I,2));
+title({['Probability of error is ',num2str(error*100,'%.2f'),'\%']},'Fontsize',12,'interpreter','latex');
 set(gcf,'Position',[400,100,900,600]);
 saveas(gcf, ['Images/segmentation.jpg']);
 close(gcf);
