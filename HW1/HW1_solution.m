@@ -25,19 +25,19 @@ train_FG(bsxfun(@eq, train_FG, M_FG)) = -1; % Set the largest value in each row 
 % train_FG(M_BG,N_BG) = -Inf; % Set the largest value as -Inf
 % [M_FG,N_FG] = find(train_FG==max(train_FG(:))); % Find the second largest coefficient and its position
 
-%Plot the histogram
+%Plot the frequency histogram
 subplot(2,1,1);
 h1 = histogram(N_BG);
 ylim([0, 500]); 
 ylabel('Frequency', 'interpreter', 'latex','FontSize', 10);
 xlabel('Index', 'interpreter', 'latex'); 
-title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
+title({['Frequency histograms of background data']},'Fontsize',12,'interpreter','latex');
 subplot(2,1,2);
 h2 = histogram(N_FG);
 ylim([0, 50]);
 ylabel('Frequency', 'interpreter', 'latex','FontSize', 10);
 xlabel('Index', 'interpreter', 'latex'); 
-title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
+title({['Frequency histograms of foreground data']},'Fontsize',12,'interpreter','latex');
 %Save the statistic data
 F_x_BG = zeros(1,64);
 F_x_BG(min(N_BG):max(N_BG)) = h1.Values;
@@ -48,33 +48,29 @@ set(gcf,'Position',[400,100,900,600]);
 saveas(gcf, ['Images/histograms1.jpg']);
 close(gcf);
 
-% %Calculate the estimation of class-conditionals for two classes and priors probabilities
-% P_x_BG = F_x_BG ./ sum(F_x_BG);
-% P_x_FG = F_x_FG ./ sum(F_x_FG);
-% P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
-% P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
-% %Plot the histogram
-% subplot(2,1,1);
-% h1 = histogram(P_x_BG);
-% ylim([0, 500]); 
-% ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
-% xlabel('Index', 'interpreter', 'latex'); 
-% title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
-% subplot(2,1,2);
-% h2 = histogram(P_x_FG);
-% ylim([0, 50]);
-% ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
-% xlabel('Index', 'interpreter', 'latex'); 
-% title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
-% %Save the statistic data
-% F_x_BG = zeros(1,64);
-% F_x_BG(min(N_BG):max(N_BG)) = h1.Values;
-% F_x_FG = zeros(1,64);
-% F_x_FG(min(N_FG):max(N_FG)) = h2.Values;
-% %Save the histogram figure
-% set(gcf,'Position',[400,100,900,600]);
-% saveas(gcf, ['Images/histograms2.jpg']);
-% close(gcf);
+%Calculate the estimation of class-conditionals for two classes and priors probabilities
+P_x_BG = F_x_BG ./ sum(F_x_BG);
+P_x_FG = F_x_FG ./ sum(F_x_FG);
+P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
+P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
+
+% %Plot the index histogram
+subplot(2,1,1);
+h1 = histogram(N_BG,'Normalization','pdf');
+ylim([0, 0.4]); 
+ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
+xlabel('Index', 'interpreter', 'latex'); 
+title({['Index histograms of $$P_{X|Y}(x|grass)$$']},'Fontsize',12,'interpreter','latex');
+subplot(2,1,2);
+h2 = histogram(N_FG,'Normalization','pdf');
+ylim([0, 0.2]);
+ylabel('Probability', 'interpreter', 'latex','FontSize', 10);
+xlabel('Index', 'interpreter', 'latex'); 
+title({['Index histograms of $$P_{X|Y}(x|cheetah)$$']},'Fontsize',12,'interpreter','latex');
+%Save the histogram figure
+set(gcf,'Position',[400,100,900,600]);
+saveas(gcf, ['Images/histograms2.jpg']);
+close(gcf);
 
 %Read original image
 I = imread('dataset/cheetah.bmp');
@@ -115,6 +111,6 @@ imshow(mask);
 %Calculate the probability of error
 error = length(find((mask-I)~=0)) / (size(I,1) * size(I,2));
 title({['Probability of error is ',num2str(error*100,'%.2f'),'\%']},'Fontsize',12,'interpreter','latex');
-set(gcf,'Position',[400,100,900,600]);
+%set(gcf,'Position',[900,600]);
 saveas(gcf, ['Images/segmentation.jpg']);
 close(gcf);

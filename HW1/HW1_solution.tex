@@ -48,6 +48,9 @@
     \section*{Computer Problem Solution}
     % If the Problem is divided into items, use "enumerate"
     \begin{enumerate}[a)]
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Problem (a)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item 
         Using the training data in \textbf{TrainingSamplesDCT8.mat}, what are reasonable estimates for the prior probabilities?
         
@@ -66,66 +69,69 @@
             \item[] $N_{FG}$ is the number of vectors in matrix \textbf{TrainsampleDCT\_FG}
         \end{itemize}
         
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Problem (b)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item 
         Using the training data in \textbf{TrainingSamplesDCT8.mat}, compute and plot the index histograms
         $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$. 
         
         \textbf{Solution}:\\
-        The index histograms is the following picture:
+        According to training data, the frequency histograms is the following picture:
         \begin{figure}[h]
             \centering
-            \includegraphics[scale=0.28]{Images/histograms.jpg}
-            \caption{index histograms}
+            \includegraphics[scale=0.2]{Images/histograms1.jpg}
+            \caption{Frequency histograms}
         \end{figure}\\
-        The value of $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is showed as following histograms:
+        The index histograms of $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is showed as following:
         \begin{figure}[h]
             \centering
-            \includegraphics[scale=0.28]{Images/histograms.jpg}
-            \caption{index histograms}
+            \includegraphics[scale=0.2]{Images/histograms2.jpg}
+            \caption{Index histograms}
         \end{figure}
-        \begin{enumerate}[1.]
-            \item 
-            \begin{equation}
-                \forall n(P(n) \rightarrow Q(n)),
-            \end{equation}
-           where
-           \begin{itemize}
-                \item[] $P(n)$ is ``$n$ is an odd integer'' and
-                \item[] $Q(n)$ is ``$n^2$ is odd.''
-           \end{itemize}
-            
-            \item 
-            Assume $P(n)$  is true.
-            
-            \item 
-            By definition, an odd integer is $n = 2k + 1$, 
-            where $k$ is some integer.
-    
-            \item
-            \begin{align*}
-                n^2 &= (2k + 1)^2 \\
-                    &= 4k^2 + 4k + 1 \\
-                    &=  2(2k^2 + 2k) + 1
-            \end{align*}
-            
-            \item 
-            $\therefore n^2$ is an odd integer. $\qed$
-        \end{enumerate}
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Problem (c)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \item    
+        For each block in the image \textbf{cheetah.bmp}, compute the feature X (index of the DCT coefficient with $2^{nd}$ greatest energy).
+        Compute the state variable Y using the minimum probability of error rule based on the probabilities obtained in a) and b).
+        Store the state in an array A. Using the commands imagesc and colormap(gray(255)) create a picture of that array.
         
+        \textbf{Solution}:\\
+        Given a 8*8 block from the image \textbf{cheetah.bmp}, we can easily compute an array of 8*8 frequency coefficients by using
+        funcition \textbf{dct2} on Matlab. Feature X would be index of the $2^{nd}$ greatest DCT coefficient. Given $X=x$ in one block,
+        we can compute the $P_{Y|X}(cheetah|x)$ and $P_{Y|X}(grass|x)$ as following:
+        \begin{equation}
+            P_{Y|X}(cheetah|x) = \frac{P_{X|Y}(x|cheetah)*P_Y(cheetah)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
+        \end{equation}
+        \begin{equation}
+            P_{Y|X}(grass|x) = \frac{P_{X|Y}(x|grass)*P_Y(grass)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
+        \end{equation}
+        where 
+        \begin{itemize}
+            \item[] $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ are the estimation we get from training data.
+            \item[] $P_Y(cheetah)$ and $P_Y(grass)$ are the estimation we get from training data.
+        \end{itemize}
+        According to minimum probability of error rule, if $P_{Y|X}(cheetah|x) >= P_{Y|X}(grass|x)$, then we mask the top left corner of the 8*8 block as 1, regarding this pixel belongs to cheetah.
+        Otherwise, we mask 0. By using a sliding window that moves by one pixel at each step, finally we get a array A containing the mask ndicates 
+        which blocks contain grass and which contain the cheetah.
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Problem (d)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \item  
+        The array A contains a mask that indicates which blocks contain grass and which contain the cheetah. Compare it with the ground
+        truth provided in image \textbf{cheetah mask.bmp} (shown below on the right) and compute the probability of error of your algorithm.
         
-    
-        \item Let $A = \{1,2,3\}$ and $B = \{1,2,3,\{1,2,3\}\}$:
-            
-        Then, $A \in B$ and $A \subseteq B$.
-        
-        \item Let $A = \{1, 3, 5\}$, $B = \{1,2,3,\}$, and universe $U = \{1,2,3,4,5\}$:
-        \begin{align*}
-            A \cup B    &= \{1,2,3,5\}, \\
-            A \cap B    &= \{1,3\}, \\
-            A - B       &= \{5\},\\
-            \bar{A}     &= \{2,4\},\\
-            A - A       &= \emptyset .
-        \end{align*}
+        \textbf{Solution}:\\
+        The comparision between ground truth and picture generated from array A is showed as following:
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=0.4]{Images/segmentation.jpg}
+            \caption{Comparision}
+        \end{figure}\\
+        The probabilities of error is 17.25\%, as showed in the figure above.
     
     \end{enumerate}
     
