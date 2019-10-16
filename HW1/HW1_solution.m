@@ -72,7 +72,9 @@ loop_row = size(I,1) - 8 + 1;
 loop_column = size(I,2) - 8 + 1;
 
 mask = zeros(size(I));
-position_ref = load('dataset/Zig-Zag Pattern.txt')
+position_ref = load('dataset/Zig-Zag Pattern.txt');
+T = P_BG / P_FG; % Caculate the threshold
+
 for i=1:1:loop_row
     for j=1:1:loop_column
         block = I(i:i+7,j:j+7);
@@ -83,12 +85,10 @@ for i=1:1:loop_row
         [x,y] = find(DCT_block==max(DCT_block(:))); % Find the second largest coefficient and its position
         feature = position_ref(x,y) + 1;
         %Decide the binary mask
-        %Before decide the mask, we should caluate two class-conditionals
-        P_FG_Decision = P_x_FG(1,feature) * P_FG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
-        P_BG_Decision = P_x_BG(1,feature) * P_BG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
-%         P_FG_Decision = P_x_FG(1,feature) / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
-%         P_BG_Decision = P_x_BG(1,feature) / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
-        if P_FG_Decision >= P_BG_Decision
+%         %Before decide the mask, we should caluate two class-conditionals
+%         P_FG_Decision = P_x_FG(1,feature) * P_FG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
+%         P_BG_Decision = P_x_BG(1,feature) * P_BG / (P_x_FG(1,feature)* P_FG + P_x_BG(1,feature) * P_BG);
+        if P_x_FG(1,feature)/P_x_BG(1,feature) > T
             mask(i,j) = 1;
         end
     end

@@ -85,6 +85,8 @@
             \includegraphics[scale=0.2]{Images/histograms1.jpg}
             \caption{Frequency histograms}
         \end{figure}\\
+        \\
+        \\
         The index histograms of $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is showed as following:
         \begin{figure}[h]
             \centering
@@ -103,20 +105,18 @@
         \textbf{Solution}:\\
         Given a 8*8 block from the image \textbf{cheetah.bmp}, we can easily compute an array of 8*8 frequency coefficients by using
         funcition \textbf{dct2} on Matlab. Feature X would be index of the $2^{nd}$ greatest DCT coefficient. Given $X=x$ in one block,
-        we can compute the $P_{Y|X}(cheetah|x)$ and $P_{Y|X}(grass|x)$ as following:
+        according to the minimum probability of error rule, we can pick state of cheetah if:
         \begin{equation}
-            P_{Y|X}(cheetah|x) = \frac{P_{X|Y}(x|cheetah)*P_Y(cheetah)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
-        \end{equation}
-        \begin{equation}
-            P_{Y|X}(grass|x) = \frac{P_{X|Y}(x|grass)*P_Y(grass)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
+            \frac{P_{X|Y}(x|cheetah)}{P_{X|Y}(x|grass)} > T = \frac{P_Y(grass)}{P_Y(cheetah)}
         \end{equation}
         where 
         \begin{itemize}
             \item[] $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ are the estimation we get from training data.
             \item[] $P_Y(cheetah)$ and $P_Y(grass)$ are the estimation we get from training data.
+            \item[] $T$ is the threshold.
         \end{itemize}
-        According to minimum probability of error rule, if $P_{Y|X}(cheetah|x) >= P_{Y|X}(grass|x)$, then we mask the top left corner of the 8*8 block as 1, regarding this pixel belongs to cheetah.
-        Otherwise, we mask 0. By using a sliding window that moves by one pixel at each step, finally we get a array A containing the mask ndicates 
+        Then we mask the top left corner of the 8*8 block as 1, regarding this pixel belongs to cheetah.
+        Otherwise, we mask 0. By using a sliding window that moves by one pixel at each step, finally we get a array A containing the mask indicates 
         which blocks contain grass and which contain the cheetah.
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,7 +133,7 @@
             \includegraphics[scale=0.4]{Images/segmentation.jpg}
             \caption{Comparision}
         \end{figure}\\
-        The probabilities of error is 17.25\%, as showed in the figure above.
+        The probabilities of error is 16.90\%, as showed in the figure above.
     \end{enumerate}
 
     \section*{Appendix}
