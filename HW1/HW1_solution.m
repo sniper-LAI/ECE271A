@@ -17,14 +17,6 @@ train_BG(bsxfun(@eq, train_BG, M_BG)) = -1; % Set the largest value in each row 
 train_FG(bsxfun(@eq, train_FG, M_FG)) = -1; % Set the largest value in each row to -inF
 [M_FG,N_FG] = max(train_FG,[],2);
 
-% [M_BG,N_BG] = find(train_BG==max(train_BG(:))); % Find the largest coefficient
-% train_BG(M_BG,N_BG) = -Inf; % Set the largest value as -Inf
-% [M_BG,N_BG] = find(train_BG==max(train_BG(:))); % Find the second largest coefficient and its position
-% 
-% [M_FG,N_FG] = find(train_FG==max(train_FG(:))); % Find the largest coefficient
-% train_FG(M_BG,N_BG) = -Inf; % Set the largest value as -Inf
-% [M_FG,N_FG] = find(train_FG==max(train_FG(:))); % Find the second largest coefficient and its position
-
 %Plot the frequency histogram
 subplot(2,1,1);
 h1 = histogram(N_BG);
