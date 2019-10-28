@@ -50,6 +50,51 @@ for j=1:1:4
     close(gcf);
 end
 
+best = [1,18,25,27,32,33,40,41];
+worst = [3,4,5,59,60,62,63,64];
+
+%Plot the best 8 features
+position = 1
+for i=best
+    subplot(2,4,position);
+    x=-(mean_ch(i)+4*std_ch(i)):0.0005:(mean_ch(i)+4*std_ch(i));
+    y=normpdf(x,mean_ch(i),std_ch(i));
+    %Plot the cheetah line
+    plot(x,y);
+    hold on
+    x=-(mean_gr(i)+4*std_gr(i)):0.0005:(mean_gr(i)+4*std_gr(i));
+    y=normpdf(x,mean_gr(i),std_gr(i));
+    %Plot the grass line and mark it as red
+    plot(x,y,'r');
+    position = position + 1;
+    title({['k=',num2str(i)]},'Fontsize',12,'interpreter','latex');
+end
+set(gcf,'Position',[400,100,900,600]);
+%Save the images
+saveas(gcf, ['Images/subplot_best8features.jpg']);
+close(gcf);
+
+%Plot the worst 8 features
+position = 1
+for i=worst
+    subplot(2,4,position);
+    x=-(mean_ch(i)+4*std_ch(i)):0.0005:(mean_ch(i)+4*std_ch(i));
+    y=normpdf(x,mean_ch(i),std_ch(i));
+    %Plot the cheetah line
+    plot(x,y);
+    hold on
+    x=-(mean_gr(i)+4*std_gr(i)):0.0005:(mean_gr(i)+4*std_gr(i));
+    y=normpdf(x,mean_gr(i),std_gr(i));
+    %Plot the grass line and mark it as red
+    plot(x,y,'r');
+    position = position + 1;
+    title({['k=',num2str(i)]},'Fontsize',12,'interpreter','latex');
+end
+set(gcf,'Position',[400,100,900,600]);
+%Save the images
+saveas(gcf, ['Images/subplot_worst8features.jpg']);
+close(gcf);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem (c)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +113,7 @@ loop_column = size(I,2) - 8 + 1;
 %Caculate the threshold
 T = P_BG / P_FG;
 
-mask = zeros(size(I));
+mask_64 = zeros(size(I));
 %Read the Zig-Zag file
 position_ref = load('dataset/Zig-Zag Pattern.txt');
 %Define the array for saving DCT coeffiences according to Zig-Zag
@@ -87,8 +132,52 @@ for i=1:1:loop_row
         P_x_FG = mvnpdf(DCT_coeffience,mean_ch,cov_ch);
         P_x_BG = mvnpdf(DCT_coeffience,mean_gr,cov_gr);
         if P_x_FG/P_x_BG > T
-            mask(i,j) = 1;
+            mask_64(i,j) = 1;
         end
     end
 end
-imshow(mask);
+
+%The best 8 features
+%Calculate the covariance matrix of cheetah
+cov_ch = cov(train_FG(:,best));
+%Calculate the covariance matrix of grass
+cov_gr = cov(train_BG(:,best));
+
+mask_8 = zeros(size(I));
+%Define the array for saving DCT coeffiences according to Zig-Zag
+DCT_coeffience = zeros([1,64]);
+
+for i=1:1:loop_row
+    for j=1:1:loop_column
+        block = I(i:i+7,j:j+7);
+        DCT_block = dct2(block);
+        %Map DCT_block matrix to array according Zig-Zag
+        for row=1:1:8
+            for column=1:1:8
+                DCT_coeffience(1,position_ref(row,column)+1)=DCT_block(row,column);
+            end
+        end
+        P_x_FG = mvnpdf(DCT_coeffience(best),mean_ch(best),cov_ch);
+        P_x_BG = mvnpdf(DCT_coeffience(best),mean_gr(best),cov_gr);
+        if P_x_FG/P_x_BG > T
+            mask_8(i,j) = 1;
+        end
+    end
+end
+
+%Read the mask file
+I = imread('dataset/cheetah_mask.bmp');
+I = im2double(I);
+subplot(1,2,1)
+imshow(mask_64);
+%Calculate the probability of error
+error = length(find((mask_64-I)~=0)) / (size(I,1) * size(I,2));
+title({['Probability of error is ',num2str(error*100,'%.2f'),'\%']},'Fontsize',12,'interpreter','latex');
+subplot(1,2,2)
+imshow(mask_8);
+%Calculate the probability of error
+error = length(find((mask_8-I)~=0)) / (size(I,1) * size(I,2));
+title({['Probability of error is ',num2str(error*100,'%.2f'),'\%']},'Fontsize',12,'interpreter','latex');
+%Save the image
+saveas(gcf, ['Images/segmentation.jpg']);
+close(gcf);
