@@ -92,7 +92,15 @@
             \item[] $N_{FG}$ is the number of cheetah samples
         \end{itemize}
         These estimates are actually the same as the estimates that I obtained in Homework\#1. It implies that the prior probabilities
-        could be estimated by using proportion of each states in the samples if we have enough or big number of samples.
+        could be estimated by using proportion of each states in the samples if we have enough or big number of samples.\\
+        \\
+        The histogram is shown below. Mark cheetah to 1 and grass to 0. We could use the histogram to estimate $P_Y(cheetah)$ and $P_Y(grass)$. The result is the same as
+        ML estimates.
+        \begin{figure}[H]
+            \centering 
+            \includegraphics[width=0.45\textwidth]{Images/histogram.jpg}
+            \label{Fig.histogram}
+        \end{figure}
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Problem (b)
@@ -153,6 +161,21 @@
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item  
         \textbf{Solution}:\\
+        By using Bayesian decision rule, we can compare the proportion of conditional probabilities of two classes, compare the result with
+        the threshold and mask the top left corner of the 8*8 block as 1, regarding this pixel belongs to cheetah. Otherwise, we mask 0.
+        \begin{equation}
+            \frac{P_{X|Y}(x|cheetah)}{P_{X|Y}(x|grass)} > T = \frac{P_Y(grass)}{P_Y(cheetah)} \nonumber
+        \end{equation}
+        where 
+        \begin{itemize}
+            \item[] $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ are conditional probabilities of two classes.
+            \item[] $P_Y(cheetah)$ and $P_Y(grass)$ are the ML estimates we get from training data.
+            \item[] $T$ is the threshold.
+        \end{itemize}
+        $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is calculated using the following equation
+        \begin{equation}
+            P_{X|Y}(x|i)= \frac{1}{\sqrt{(2\pi)^d|\Sigma_i|}}exp\{-\frac{1}{2}(x-\mu_i)^T\Sigma_i^{-1}(x-\mu_i)\} \nonumber
+        \end{equation}
         The classification results using 64-dimensional Gaussians and 8-dimensional Gaussians associated with the best 8 features
         are shown below. Compare it with the ground truth provided in image \textbf{cheetah mask.bmp} and compute the probability of error.
         The probability of error is also shown in the figure below.
@@ -162,7 +185,10 @@
             \caption{Classification results}
             \label{Fig.main}
         \end{figure}
-        
+        Obviously, the classification performance of 8-dimensional Gaussians associated with the best 8 features is better than the 64-dimensional
+        Gaussians. My explanation is that while we add more features to the best 8 features, the probability density distribution of
+        $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ will get closer, bacause some features' marginal densities are very similiar, just like the worst
+        8 features we shown above. Thus, it makes Bayesian decision rule based classification perform worse. 
     \end{enumerate}
 
     \section*{Appendix}

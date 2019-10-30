@@ -12,6 +12,12 @@ train_FG = TrainsampleDCT_FG;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
 P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
+%Plot the histogram
+his = [ones(size(train_FG,1),1);zeros(size(train_BG,1),1)];
+h1 = histogram(his);
+set(gca,'XTick',[0:1:2]);
+saveas(gcf, ['Images/histogram.jpg']);
+close(gcf);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem (b)
