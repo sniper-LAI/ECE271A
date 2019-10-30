@@ -11,9 +11,32 @@
     \usepackage{graphicx}
     \usepackage{listings}
     \usepackage{hyperref}
-    \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
-    \definecolor{mylilas}{RGB}{170,55,241}
+    \usepackage{float} 
+    \usepackage{subfigure}
+    \definecolor{codegreen}{rgb}{0,0.6,0}
+    \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+    \definecolor{codepurple}{rgb}{0.58,0,0.82}
+    \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
     
+    \lstdefinestyle{mystyle}{
+        backgroundcolor=\color{backcolour},   
+        commentstyle=\color{codegreen},
+        keywordstyle=\color{magenta},
+        numberstyle=\tiny\color{codegray},
+        stringstyle=\color{codepurple},
+        basicstyle=\ttfamily\footnotesize,
+        breakatwhitespace=false,         
+        breaklines=true,                 
+        captionpos=b,                    
+        keepspaces=true,                 
+        numbers=left,                    
+        numbersep=5pt,                  
+        showspaces=false,                
+        showstringspaces=false,
+        showtabs=false,                  
+        tabsize=2
+    }
+
     \hypersetup{%
       colorlinks=true,
       linkcolor=blue,
@@ -27,7 +50,7 @@
     %%%%%%%%%%%%%%%%%%%%%%%% CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
     \newcommand\course{ECE 271A}
     \newcommand\semester{Fall 2019}
-    \newcommand\hwnumber{\#1}                 % <-- ASSIGNMENT #
+    \newcommand\hwnumber{\#2}                 % <-- ASSIGNMENT #
     \newcommand\NetIDa{Jiaming Lai}           % <-- YOUR NAME
     \newcommand\NetIDb{A53314574}           % <-- STUDENT ID #
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
@@ -54,106 +77,117 @@
         % Problem (a)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item 
-        Using the training data in \textbf{TrainingSamplesDCT8.mat}, what are reasonable estimates for the prior probabilities?
         
         \textbf{Solution}:\\
-        Two priors probabilities, $P_Y(cheetah)$ and $P_Y(grass)$, could be estimated based on the number of vectors in the training set.
-        The estimation of $P_Y(cheetah)$ and $P_Y(grass)$ are: 
+        Using the results of problem 2, the maximum likelihood estimate for the prior probabilities is following:
         \begin{equation}
-            P_Y(cheetah) = N_{FG} / (N_{FG} + N_{BG}) = 0.1919
+            P_Y(cheetah) = N_{FG} / (N_{FG} + N_{BG}) = 0.1919 \nonumber
         \end{equation}
         \begin{equation}
-            P_Y(grass) = N_{BG} / (N_{FG} + N_{BG}) = 0.8081
+            P_Y(grass) = N_{BG} / (N_{FG} + N_{BG}) = 0.8081 \nonumber
         \end{equation}
         where 
         \begin{itemize}
-            \item[] $N_{BG}$ is the number of vectors in matrix \textbf{TrainsampleDCT\_BG}
-            \item[] $N_{FG}$ is the number of vectors in matrix \textbf{TrainsampleDCT\_FG}
+            \item[] $N_{BG}$ is the number of grass samples
+            \item[] $N_{FG}$ is the number of cheetah samples
         \end{itemize}
-        
+        These estimates are actually the same as the estimates that I obtained in Homework\#1. It implies that the prior probabilities
+        could be estimated by using proportion of each states in the samples if we have enough or big number of samples.
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Problem (b)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item 
-        Using the training data in \textbf{TrainingSamplesDCT8.mat}, compute and plot the index histograms
-        $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$. 
         
         \textbf{Solution}:\\
-        According to training data, the frequency histograms is the following picture:
-        \begin{figure}[h]
-            \centering
-            \includegraphics[scale=0.2]{Images/histograms1.jpg}
-            \caption{Frequency histograms}
-        \end{figure}\\
-        The index histograms of $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ is showed as following:
-        \begin{figure}[h]
-            \centering
-            \includegraphics[scale=0.2]{Images/histograms2.jpg}
-            \caption{Index histograms}
+        The marginal densities for two classes
+        \begin{equation}
+            P_{x_k|Y}(x_k|cheetah)\ and\ P_{x_k|Y}(x_k|grass),\ k=1,2,\ldots,64 \nonumber
+        \end{equation}
+        are shown below on Figure 1. The blue line represents $P_{x_k|Y}(x_k|cheetah)$ and the red line
+        represents $P_{x_k|Y}(x_k|grass)$.
+        \begin{figure}[H]
+            \centering 
+            \subfigure{
+            \label{Fig.sub.1}
+            \includegraphics[width=0.45\textwidth]{Images/subplot1.jpg}}
+            \subfigure{
+            \label{Fig.sub.2}
+            \includegraphics[width=0.45\textwidth]{Images/subplot2.jpg}}
+            \label{Fig.main}
+        \end{figure}
+        \begin{figure}[H]
+            \centering 
+            \subfigure{
+            \label{Fig.sub.3}
+            \includegraphics[width=0.45\textwidth]{Images/subplot3.jpg}}
+            \subfigure{
+            \label{Fig.sub.4}
+            \includegraphics[width=0.45\textwidth]{Images/subplot4.jpg}}
+            \caption{Marginal densities for two classes}
+            \label{Fig.main}
+        \end{figure}
+        By visual inspection, the best 8 features and worst 8 features are:
+        \begin{itemize}
+            \item[] best 8 features:[1,18,25,27,32,33,40,41]
+            \item[] worst 8 features:[3,4,5,59,60,62,63,64]
+        \end{itemize}
+        The plots of the marginal densities for the best-8 and worst-8 features are shown below:
+        \begin{figure}[H]
+            \centering 
+            \subfigure[Best 8 features]{
+            \label{Fig.sub.1}
+            \includegraphics[width=0.8\textwidth]{Images/subplot_best8features.jpg}}
+        \end{figure}
+        \begin{figure}[H]
+            \centering 
+            \subfigure[Worst 8 features]{
+            \label{Fig.sub.2}
+            \includegraphics[width=0.8\textwidth]{Images/subplot_worst8features.jpg}}
+            \caption{Marginal densities for the best-8 and worst-8 features}
+            \label{Fig.bestandworst}
         \end{figure}
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Problem (c)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        \item    
-        For each block in the image \textbf{cheetah.bmp}, compute the feature X (index of the DCT coefficient with $2^{nd}$ greatest energy).
-        Compute the state variable Y using the minimum probability of error rule based on the probabilities obtained in a) and b).
-        Store the state in an array A. Using the commands imagesc and colormap(gray(255)) create a picture of that array.
-        
-        \textbf{Solution}:\\
-        Given a 8*8 block from the image \textbf{cheetah.bmp}, we can easily compute an array of 8*8 frequency coefficients by using
-        funcition \textbf{dct2} on Matlab. Feature X would be index of the $2^{nd}$ greatest DCT coefficient. Given $X=x$ in one block,
-        we can compute the $P_{Y|X}(cheetah|x)$ and $P_{Y|X}(grass|x)$ as following:
-        \begin{equation}
-            P_{Y|X}(cheetah|x) = \frac{P_{X|Y}(x|cheetah)*P_Y(cheetah)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
-        \end{equation}
-        \begin{equation}
-            P_{Y|X}(grass|x) = \frac{P_{X|Y}(x|grass)*P_Y(grass)}{P_{X|Y}(x|cheetah)*P_Y(cheetah)+P_{X|Y}(x|grass)*P_Y(grass)}
-        \end{equation}
-        where 
-        \begin{itemize}
-            \item[] $P_{X|Y}(x|cheetah)$ and $P_{X|Y}(x|grass)$ are the estimation we get from training data.
-            \item[] $P_Y(cheetah)$ and $P_Y(grass)$ are the estimation we get from training data.
-        \end{itemize}
-        According to minimum probability of error rule, if $P_{Y|X}(cheetah|x) >= P_{Y|X}(grass|x)$, then we mask the top left corner of the 8*8 block as 1, regarding this pixel belongs to cheetah.
-        Otherwise, we mask 0. By using a sliding window that moves by one pixel at each step, finally we get a array A containing the mask ndicates 
-        which blocks contain grass and which contain the cheetah.
-
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % Problem (d)
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         \item  
-        The array A contains a mask that indicates which blocks contain grass and which contain the cheetah. Compare it with the ground
-        truth provided in image \textbf{cheetah mask.bmp} (shown below on the right) and compute the probability of error of your algorithm.
-        
         \textbf{Solution}:\\
-        The comparision between ground truth and picture generated from array A is showed as following:
-        \begin{figure}[h]
-            \centering
-            \includegraphics[scale=0.4]{Images/segmentation.jpg}
-            \caption{Comparision}
-        \end{figure}\\
-        The probabilities of error is 17.25\%, as showed in the figure above.
+        The classification results using 64-dimensional Gaussians and 8-dimensional Gaussians associated with the best 8 features
+        are shown below. Compare it with the ground truth provided in image \textbf{cheetah mask.bmp} and compute the probability of error.
+        The probability of error is also shown in the figure below.
+        \begin{figure}[H]
+            \centering 
+            \includegraphics[width=0.8\textwidth]{Images/segmentation.jpg}
+            \caption{Classification results}
+            \label{Fig.main}
+        \end{figure}
+        
     \end{enumerate}
 
     \section*{Appendix}
     The following is the Matlab code.
-    \lstset{language=Matlab,%
-        %basicstyle=\color{red},
-        breaklines=true,%
-        morekeywords={matlab2tikz},
-        keywordstyle=\color{blue},%
-        morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
-        identifierstyle=\color{black},%
-        stringstyle=\color{mylilas},
-        commentstyle=\color{mygreen},%
-        showstringspaces=false,%without this there will be a symbol in the places where there is a space
-        numbers=left,%
-        numberstyle={\tiny \color{black}},% size of the numbers
-        numbersep=9pt, % this defines how far the numbers are from the text
-        emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-        %emph=[2]{word1,word2}, emphstyle=[2]{style},    
-    }
-    \lstinputlisting{HW1_solution.m}
+
+    \subsection{HW2\_solution.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{HW2_solution.m}
+
+    \subsection{fun\_mean.m}
+    The function for calculating ML mean.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{fun_mean.m}
+
+    \subsection{fun\_cov.m}
+    The function for calculating covariance matrix and ML variance.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{fun_cov.m}
+
+    \subsection{fun\_gaussian.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{fun_gaussian.m}
+
+    \subsection{fun\_mvgaussian.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{fun_mvgaussian.m}
 
     \end{document}
