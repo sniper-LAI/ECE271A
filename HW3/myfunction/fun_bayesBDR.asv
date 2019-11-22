@@ -37,12 +37,12 @@ cov_prior = diag(v);
 mu_p_BG = cov_prior * inv(cov_prior + cov_gr/size(train_BG,1)) * ...
     mean_gr' + cov_gr/size(train_BG,1) * inv(cov_prior + cov_gr/size(train_BG,1))...
     * mu0_BG';
-cov_p_BG = cov_gr + cov_prior * inv(cov_prior + cov_gr/size(train_BG,1)) * cov_gr/size(train_BG,1);
+cov_p_BG = cov_gr + (cov_prior + cov_gr/size(train_BG,1))^(-1) * cov_gr/size(train_BG,1);
 %FG predictive distribution 
-mu_p_FG = cov_prior * inv(cov_prior + cov_ch/size(train_FG,1)) * ...
-    mean_ch' + cov_ch/size(train_FG,1) * inv(cov_prior + cov_ch/size(train_FG,1))...
+mu_p_FG = cov_prior * (cov_prior + cov_ch/size(train_FG,1))^(-1) * ...
+    mean_ch' + cov_ch/size(train_FG,1) * (cov_prior + cov_ch/size(train_FG,1))^(-1)...
     * mu0_FG';
-cov_p_FG = cov_ch + cov_prior * inv(cov_prior + cov_ch/size(train_FG,1)) * cov_ch/size(train_FG,1);
+cov_p_FG = cov_ch + (cov_prior + cov_ch/size(train_FG,1))^(-1) * cov_ch/size(train_FG,1);
 
 %Load DCT file
 load('DCT_coeffience.mat');
@@ -55,8 +55,8 @@ k=1;
 
 for i=1:1:loop_row
     for j=1:1:loop_column
-        P_x_FG = fun_mvgaussian(DCT_coeffience(k,:),mu_p_FG',cov_p_FG);
-        P_x_BG = fun_mvgaussian(DCT_coeffience(k,:),mu_p_BG',cov_p_BG);
+        P_x_FG = fun_mvgaussian(DCT_coeffience(k,:),mu_p_FG,cov_p_FG);
+        P_x_BG = fun_mvgaussian(DCT_coeffience(k,:),mu_p_BG,cov_p_BG);
         if P_x_FG/P_x_BG > T
             mask_64(i,j) = 1;
         end

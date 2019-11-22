@@ -1,5 +1,5 @@
-function [error] = fun_bayesBDR(train_BG,train_FG,Alpha,i)
-%This function is for Bayes BDR.
+function [error] = fun_mapBDR(train_BG,train_FG,Alpha,i)
+%This function is for MAP BDR.
 %Use Bayes Estimation and BDR, return the predict mask of original image.
 %i - represent the strategy we use
 
@@ -25,24 +25,20 @@ cov_gr = fun_cov(train_BG,mean_gr);
 %Compute the covariance matrix of Gaussian prior
 v = Alpha * W0;
 cov_prior = diag(v);
-% size(cov_prior)
-% size(cov_ch)
-% size(cov_gr)
-% size(mu0_BG)
 
-%Compute Bayes Estimation and parameters of the predictive distribution
+%Compute MAP Estimation and parameters of the predictive distribution
 %Use mu_p and mu_cov as the mean and convariance matrix of the predictive
 %distribution. The equation is from DHS.
 %BG predictive distribution 
 mu_p_BG = cov_prior * inv(cov_prior + cov_gr/size(train_BG,1)) * ...
     mean_gr' + cov_gr/size(train_BG,1) * inv(cov_prior + cov_gr/size(train_BG,1))...
     * mu0_BG';
-cov_p_BG = cov_gr + cov_prior * inv(cov_prior + cov_gr/size(train_BG,1)) * cov_gr/size(train_BG,1);
+cov_p_BG = cov_gr;
 %FG predictive distribution 
 mu_p_FG = cov_prior * inv(cov_prior + cov_ch/size(train_FG,1)) * ...
     mean_ch' + cov_ch/size(train_FG,1) * inv(cov_prior + cov_ch/size(train_FG,1))...
     * mu0_FG';
-cov_p_FG = cov_ch + cov_prior * inv(cov_prior + cov_ch/size(train_FG,1)) * cov_ch/size(train_FG,1);
+cov_p_FG = cov_ch;
 
 %Load DCT file
 load('DCT_coeffience.mat');
