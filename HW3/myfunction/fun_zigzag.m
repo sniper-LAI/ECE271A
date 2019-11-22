@@ -1,6 +1,6 @@
 function [] = fun_zigzag()
 %This function is for computing the DCT coe?cients of original image. 
-%Decomposition into 8 ¡Á 8 image blocks, compute the DCT of each block, and
+%Decomposition into 8 x 8 image blocks, compute the DCT of each block, and
 %zig-zag scan.
 
 %Read original image

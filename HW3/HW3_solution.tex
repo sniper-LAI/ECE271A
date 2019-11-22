@@ -1,0 +1,130 @@
+%%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \documentclass[12pt,letterpaper]{article}
+    \usepackage{fullpage}
+    \usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+    \usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+    \usepackage{lastpage}
+    \usepackage{enumerate}
+    \usepackage{fancyhdr}
+    \usepackage{mathrsfs}
+    \usepackage{xcolor}
+    \usepackage{graphicx}
+    \usepackage{listings}
+    \usepackage{hyperref}
+    \usepackage{float} 
+    \usepackage{subfigure}
+    \definecolor{codegreen}{rgb}{0,0.6,0}
+    \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+    \definecolor{codepurple}{rgb}{0.58,0,0.82}
+    \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+    
+    \lstdefinestyle{mystyle}{
+        backgroundcolor=\color{backcolour},   
+        commentstyle=\color{codegreen},
+        keywordstyle=\color{magenta},
+        numberstyle=\tiny\color{codegray},
+        stringstyle=\color{codepurple},
+        basicstyle=\ttfamily\footnotesize,
+        breakatwhitespace=false,         
+        breaklines=true,                 
+        captionpos=b,                    
+        keepspaces=true,                 
+        numbers=left,                    
+        numbersep=5pt,                  
+        showspaces=false,                
+        showstringspaces=false,
+        showtabs=false,                  
+        tabsize=2
+    }
+
+    \hypersetup{%
+      colorlinks=true,
+      linkcolor=blue,
+      linkbordercolor={0 0 1}
+    }
+    
+    \setlength{\parindent}{0.0in}
+    \setlength{\parskip}{0.05in}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%%%%%%%%% CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \newcommand\course{ECE 271A}
+    \newcommand\semester{Fall 2019}
+    \newcommand\hwnumber{\#3}                 % <-- ASSIGNMENT #
+    \newcommand\NetIDa{Jiaming Lai}           % <-- YOUR NAME
+    \newcommand\NetIDb{A53314574}           % <-- STUDENT ID #
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \pagestyle{fancyplain}
+    \headheight 35pt
+    \lhead{\NetIDa}
+    \lhead{\NetIDa\\\NetIDb}                 
+    \chead{\textbf{\Large Assignment \hwnumber}}
+    \rhead{\course \\ \semester}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{\small\thepage}
+    \headsep 1.5em
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    \begin{document}
+     
+    \section*{Computer Problem Solution}
+    % If the Problem is divided into items, use "enumerate"
+    \begin{enumerate}[a)]
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Problem (a)
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \item 
+        sdf
+        
+    \end{enumerate}
+
+    \section*{Appendix}
+    The following is the Matlab code.
+
+    \subsection{HW3\_solution.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Matlab]{HW3_solution.m}
+
+    \subsection{fun\_general.m}
+    This function receives parameters: train data, array of alpha and strategy we want to choose,
+    and compute error using MAP-BDR, Bayes-BDR and ML-BDR.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_general.m}
+
+    \subsection{fun\_bayesBDR.m}
+    This function performs Bayes-BDR.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_bayesBDR.m}
+
+    \subsection{fun\_mapBDR.m}
+    This function performs MAP-BDR.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_mapBDR.m}
+
+    \subsection{fun\_mlBDR.m}
+    This function performs ML-BDR.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_mlBDR.m}
+
+    \subsection{fun\_zigzag.m}
+    This function compute DCT coefficients and save it as DCT\_coefficience.mat.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_zigzag.m}
+
+    \subsection{fun\_mvgaussian.m}
+    This function perfroms multi-gaussian.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_mvgaussian.m}
+
+    \subsection{fun\_cov.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_cov.m}
+
+    \subsection{fun\_mean.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_mean.m}
+
+    \end{document}
