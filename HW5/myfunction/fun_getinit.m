@@ -3,24 +3,21 @@ function [weight, mu, sigma] = fun_getinit(C)
 % C -- number of mixtures we want to use
 %
 % Return:
-% weight -- the matrix of weight, size of (C,1)
+% weight -- the matrix of weight, size of (1,C)
 % mu -- the matrix of mean, size of (C, 64)
 % sigma -- tensor of sigma, size of (64, 64, C)
 
-weight = zeros(C,1);
-mu = zeros(C,64);
 sigma = zeros(64,64,C);
 
 % Initialize weight
-seed = rand(C,1);
-weight = seed / sum(seed);
-
+weight = ones(1,C) / C;
 % Initialize mu
 mu = rand(C,64);
 
 % Initialize sigma
 for index=1:1:C
-    seed = rand(64,1);
+    seed = rand(1,64);
+    seed(seed < 0.001) = 0.001;
     sigma(:,:,index) = diag(seed);
 end
 
