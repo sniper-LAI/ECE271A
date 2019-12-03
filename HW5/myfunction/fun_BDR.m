@@ -2,7 +2,7 @@ function [error] = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigm
 % This function is for BDR
 % weight -- the matrix of weight, size of (C,1)
 % mu -- the matrix of mean, size of (C, 64)
-% sigma -- tensor of sigma, size of (64, 64, C)
+% sigma -- tensor of sigma, size of (C, 64)
 
 %Read the mask file
 I = imread('dataset/cheetah_mask.bmp');
@@ -20,8 +20,8 @@ for d=dimension
     k=1;
     for i=1:1:loop_row
         for j=1:1:loop_column
-            P_x_FG = fun_mixgaussian(DCT_coeffience(k,1:d),weight_FG,mu_FG(:,1:d),sigma_FG(1:d,1:d,:));
-            P_x_BG = fun_mixgaussian(DCT_coeffience(k,1:d),weight_BG,mu_BG(:,1:d),sigma_BG(1:d,1:d,:));
+            P_x_FG = fun_mixgaussian(DCT_coeffience(k,1:d),weight_FG,mu_FG(:,1:d),sigma_FG(:,1:d));
+            P_x_BG = fun_mixgaussian(DCT_coeffience(k,1:d),weight_BG,mu_BG(:,1:d),sigma_BG(:,1:d));
             if P_x_FG/P_x_BG > T
                 mask_64(i,j) = 1;
             end

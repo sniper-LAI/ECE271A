@@ -1,24 +1,19 @@
-function [weight, mu, sigma] = fun_getinit(C)
+function [weight, mu, sigma] = fun_getinit(C,data)
 % This function is parameter initialization
 % C -- number of mixtures we want to use
 %
 % Return:
-% weight -- the matrix of weight, size of (1,C)
+% weight -- the matrix of weight, size of (C,1)
 % mu -- the matrix of mean, size of (C, 64)
-% sigma -- tensor of sigma, size of (64, 64, C)
-
-sigma = zeros(64,64,C);
+% sigma -- tensor of sigma, size of (C, 64)
 
 % Initialize weight
-weight = ones(1,C) / C;
+weight = rand(C,1);
+weight = weight / sum(weight);
 % Initialize mu
-mu = rand(C,64);
+mu = 0.1 * rand(C,64) + mean(data);
 
 % Initialize sigma
-for index=1:1:C
-    seed = rand(1,64);
-    seed(seed < 0.001) = 0.001;
-    sigma(:,:,index) = diag(seed);
-end
+sigma = rand(C, 64);
 
 end
