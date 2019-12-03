@@ -1,4 +1,8 @@
-clear all
+%%
+clear;
+clc;
+tic;
+%%
 %Training
 %Read the TrainingSamplesDCT_8.mat file
 load('dataset/TrainingSamplesDCT_8_new.mat');
@@ -16,7 +20,7 @@ end
 for C=[1,2,4,8,16,32]
     fun_EM(C, train_BG, train_FG, 0);
 end
-
+%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BDR with different mixture pair and
 % dimension
@@ -31,30 +35,21 @@ train_FG = TrainsampleDCT_FG;
 P_BG = size(train_BG,1) / (size(train_BG,1) + size(train_FG,1));
 P_FG = size(train_FG,1) / (size(train_BG,1) + size(train_FG,1));
 T = P_BG / P_FG;
-% for FG=1:5
-%     load(['savedata/MuSigma_C=8M=',num2str(FG),'.mat'],'mu_FG', 'sigma_FG', 'weight_FG');
-%     for BG=1:5
-%         disp(['Start with FG=',num2str(FG),',BG=',num2str(BG)]);
-%         load(['savedata/MuSigma_C=8M=',num2str(BG),'.mat'],'mu_BG', 'sigma_BG', 'weight_BG');
-%         error = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigma_FG);
-%         save(['savedata/error_FG=',num2str(FG),'&BG=',num2str(BG),'.mat'],'error');
-%     end
-% end
-% for C=[1,2,4,8,16,32]
-%     disp(['Start with C=',num2str(C)]);
-%     load(['savedata/MuSigma_C=',num2str(C),'M=',num2str(0),'.mat'],'mu_BG',...
-%         'mu_FG','sigma_BG','sigma_FG','weight_BG','weight_FG');
-%     error = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigma_FG);
-%     save(['savedata/error_C=',num2str(C),'&M=',num2str(0),'.mat'],'error');
-% end
-
-for FG=1:1:1
+for FG=1:5
     load(['savedata/MuSigma_C=8M=',num2str(FG),'.mat'],'mu_FG', 'sigma_FG', 'weight_FG');
-    for BG=1:1:1
+    for BG=1:5
         disp(['Start with FG=',num2str(FG),',BG=',num2str(BG)]);
         load(['savedata/MuSigma_C=8M=',num2str(BG),'.mat'],'mu_BG', 'sigma_BG', 'weight_BG');
         error = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigma_FG);
         save(['savedata/error_FG=',num2str(FG),'&BG=',num2str(BG),'.mat'],'error');
     end
 end
+for C=[1,2,4,8,16,32]
+    disp(['Start with C=',num2str(C)]);
+    load(['savedata/MuSigma_C=',num2str(C),'M=',num2str(0),'.mat'],'mu_BG',...
+        'mu_FG','sigma_BG','sigma_FG','weight_BG','weight_FG');
+    error = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigma_FG);
+    save(['savedata/error_C=',num2str(C),'&M=',num2str(0),'.mat'],'error');
+end
 
+toc;

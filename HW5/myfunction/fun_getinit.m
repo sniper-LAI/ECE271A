@@ -11,10 +11,8 @@ function [weight, mu, sigma] = fun_getinit(C,data)
 weight = rand(C,1);
 weight = weight / sum(weight);
 % Initialize mu
-mu = rand(C,64); %+ mean(data);
-
+mu = 0.1 * rand(C,64) + mean(data);
 % Initialize sigma
 sigma = rand(C, 64);
-sigma(sigma < 1e-2) = 1e-2;
 
 end
