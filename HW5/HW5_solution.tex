@@ -1,0 +1,167 @@
+%%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \documentclass[12pt,letterpaper]{article}
+    \usepackage{fullpage}
+    \usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+    \usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+    \usepackage{lastpage}
+    \usepackage{enumerate}
+    \usepackage{fancyhdr}
+    \usepackage{mathrsfs}
+    \usepackage{xcolor}
+    \usepackage{graphicx}
+    \usepackage{listings}
+    \usepackage{hyperref}
+    \usepackage{float} 
+    \usepackage{subfigure}
+    \definecolor{codegreen}{rgb}{0,0.6,0}
+    \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+    \definecolor{codepurple}{rgb}{0.58,0,0.82}
+    \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+    
+    \lstdefinestyle{mystyle}{
+        backgroundcolor=\color{backcolour},   
+        commentstyle=\color{codegreen},
+        keywordstyle=\color{magenta},
+        numberstyle=\tiny\color{codegray},
+        stringstyle=\color{codepurple},
+        basicstyle=\ttfamily\footnotesize,
+        breakatwhitespace=false,         
+        breaklines=true,                 
+        captionpos=b,                    
+        keepspaces=true,                 
+        numbers=left,                    
+        numbersep=5pt,                  
+        showspaces=false,                
+        showstringspaces=false,
+        showtabs=false,                  
+        tabsize=2
+    }
+
+    \hypersetup{%
+      colorlinks=true,
+      linkcolor=blue,
+      linkbordercolor={0 0 1}
+    }
+    
+    \setlength{\parindent}{0.0in}
+    \setlength{\parskip}{0.05in}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%%%%%%%%% CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \newcommand\course{ECE 271A}
+    \newcommand\semester{Fall 2019}
+    \newcommand\hwnumber{\#5}                 % <-- ASSIGNMENT #
+    \newcommand\NetIDa{Jiaming Lai}           % <-- YOUR NAME
+    \newcommand\NetIDb{A53314574}           % <-- STUDENT ID #
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    %%%%%%%%%%%%%%%%% DO NOT CHANGE HERE %%%%%%%%%%%%%%%%%%%% {
+    \pagestyle{fancyplain}
+    \headheight 35pt
+    \lhead{\NetIDa}
+    \lhead{\NetIDa\\\NetIDb}                 
+    \chead{\textbf{\Large Assignment \hwnumber}}
+    \rhead{\course \\ \semester}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{\small\thepage}
+    \headsep 1.5em
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+    
+    \begin{document}
+     
+    \section*{1.Computation Equation}
+    % If the Problem is divided into items, use "enumerate"
+    % Class-conditional:
+    % \begin{equation}
+    %     P_{x|\mu,\Sigma}=G(x,\mu,\Sigma) \nonumber
+    % \end{equation}
+    % where
+    % \begin{equation}
+    %     \Sigma=\frac{1}{N}\sum_{i=1}^{N}\left(x_i-\frac{1}{N}\sum_{i=1}^{N}
+    %     x_i\right)\left(x_i-\frac{1}{N}\sum_{i=1}^{N}x_i\right)^T \nonumber
+    % \end{equation}
+    % Gaussian prior:
+    % \begin{equation}
+    %     P_{\mu}(\mu)=G(\mu,\mu_0,\Sigma_0) \nonumber
+    % \end{equation}
+    % where $\mu_0$ and $\Sigma_0$ is known. The following is the computation equations
+    % of different classification methods.
+    % \begin{enumerate}[a)]
+    %     \item 
+    %     predictive distribution:
+    %     \begin{equation}
+    %         P_{x|T}(x|D)=G(x,\mu_n,\Sigma+\Sigma_n) \nonumber
+    %     \end{equation}
+    %     where
+    %     \begin{equation}
+    %         \mu_n=\Sigma_0\left(\Sigma_0+\frac{1}{N}\Sigma\right)^{-1}
+    %         \mu_{ML}+\frac{1}{N}\Sigma\left(\Sigma_0+\frac{1}{N}\Sigma\right)^{-1}
+    %         \mu_0 \nonumber
+    %     \end{equation}
+    %     \begin{equation}
+    %         \Sigma_n=\Sigma_0\left(\Sigma_0+\frac{1}{N}\Sigma\right)^{-1}
+    %         \frac{1}{N}\Sigma \nonumber
+    %     \end{equation}
+    %     \item 
+    %     MAP:
+    %     \begin{equation}
+    %         P_{x|T}(x|D)=G(x,\mu_n,\Sigma) \nonumber
+    %     \end{equation}
+    %     \item 
+    %     ML:
+    %     \begin{equation}
+    %         P_{x|T}(x|D)=G(x,\mu_{ML},\Sigma) \nonumber
+    %     \end{equation}
+    % \end{enumerate}
+
+    \section*{2.Curves of Classification Error vs $\alpha$}
+    % If the Problem is divided into items, use "enumerate"
+    % \begin{figure}[H]
+    %     \centering 
+    %     \subfigure{
+    %     \label{Fig.D1andS1}
+    %     \includegraphics[width=0.45\textwidth]{images/D1andS1.jpg}}
+    %     \subfigure{
+    %     \label{Fig.D1andS2}
+    %     \includegraphics[width=0.45\textwidth]{images/D1andS2.jpg}}
+    % \end{figure}
+
+    \section*{3.Observation and Explaination}
+    \begin{enumerate}[a)]
+        \item 
+        
+    \end{enumerate}
+
+    \section*{Appendix}
+    The following is the Matlab code.
+
+    \subsection{HW5\_solution.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Matlab]{HW5_solution.m}
+
+    \subsection{HW5\_plot.m}
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Matlab]{HW5_plot.m}
+
+    \subsection{fun\_getinit.m}
+    This function performs parameters initialization.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_getinit.m}
+
+    \subsection{fun\_BDR.m}
+    This function performs BDR classification using parameters we learn from EM.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_BDR.m}
+
+    \subsection{fun\_EM.m}
+    This function performs EM.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_EM.m}
+
+    \subsection{fun\_error.m}
+    This function performs error computation.
+    \lstset{style=mystyle}
+    \lstinputlisting[language=Octave]{myfunction/fun_error.m}
+
+    \end{document}
