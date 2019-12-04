@@ -117,6 +117,15 @@ of Gaussian to grass class.
     \label{Fig.FG5}
     \includegraphics[width=0.45\textwidth]{images/FG=5.jpg}
 \end{figure}
+As shown in 5 figures above, those PoE curves would converge to a bottleneck value when number of dimension increases to
+large enough. When combining one $FG$ classifier with different $BG$ classifier, the curve of PoE would change. When
+the number of dimension is relatively small, this change is slight. However, when number of dimension increases to large
+enough, this change would become more obvious. The bottleneck values corresponding to different PoE curves are different
+obviously as we can see in the figures, although difference maybe less than 0.01. These kinds of difference come from
+parameters initialization. Since EM algorithm is always converge to local optimization point, different parameters initialization
+would lead to different local optimization point, resulting in change on PoE. But generally, when we have a good
+parameters initialization method, the final local optimization point would be very close. This is why the change of PoE
+in figures above is relatively slight.
 
 \section{Problem (b)}
 The following is the PoE versus dimension for each number of mixture components.
@@ -125,6 +134,13 @@ The following is the PoE versus dimension for each number of mixture components.
     \label{Fig.MixtureC}
     \includegraphics[width=0.45\textwidth]{images/mix_C.jpg}
 \end{figure}
+As we can see in figure above, when the number of mixture components move from 1 to 4, PoE would obviously
+reduce. However, when number of mixture components move from 4 to 32, the change would be small, even in 
+some cases, PoE would increases when we increases the number of mixture components. Since these changes are
+relatively small, they may result from different parameters initialization. In general case, we could increase
+the number of mixture components to get a better classification performance. But more number of mixture components
+mean more computation consume. And sometimes large increase of number of mixture components would only bring back small
+improvment on performance. So it is a compromise we need to consider about.
 
 \section*{Appendix}
 The following is the Matlab code.
