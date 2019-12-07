@@ -1,21 +1,21 @@
-clear all
-%Training
-%Read the TrainingSamplesDCT_8.mat file
-load('dataset/TrainingSamplesDCT_8_new.mat');
-%Save TrainsampleDCT_BG and TrainsampleDCT_FG in temporary value
-train_BG = TrainsampleDCT_BG;
-train_FG = TrainsampleDCT_FG;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Compute parameter from EM
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-C = 8;
-for M=1:5
-    fun_EM(C, train_BG, train_FG, M);
-end
-for C=[1,2,4,8,16,32]
-    fun_EM(C, train_BG, train_FG, 0);
-end
+% clear all
+% %Training
+% %Read the TrainingSamplesDCT_8.mat file
+% load('dataset/TrainingSamplesDCT_8_new.mat');
+% %Save TrainsampleDCT_BG and TrainsampleDCT_FG in temporary value
+% train_BG = TrainsampleDCT_BG;
+% train_FG = TrainsampleDCT_FG;
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Compute parameter from EM
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% C = 8;
+% for M=1:5
+%     fun_EM(C, train_BG, train_FG, M);
+% end
+% for C=[1,2,4,8,16,32]
+%     fun_EM(C, train_BG, train_FG, 0);
+% end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BDR with different mixture pair and
