@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 % clear all
 % %Training
 % %Read the TrainingSamplesDCT_8.mat file
@@ -17,6 +18,31 @@
 %     fun_EM(C, train_BG, train_FG, 0);
 % end
 
+=======
+%%
+clear;
+clc;
+tic;
+%%
+%Training
+%Read the TrainingSamplesDCT_8.mat file
+load('dataset/TrainingSamplesDCT_8_new.mat');
+%Save TrainsampleDCT_BG and TrainsampleDCT_FG in temporary value
+train_BG = TrainsampleDCT_BG;
+train_FG = TrainsampleDCT_FG;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compute parameter from EM
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+C = 8;
+for M=1:5
+    fun_EM(C, train_BG, train_FG, M);
+end
+for C=[1,2,4,8,16,32]
+    fun_EM(C, train_BG, train_FG, 0);
+end
+%%
+>>>>>>> 16a749031bdae06afd72d4c2fb98c5cf947f8c1f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BDR with different mixture pair and
 % dimension
@@ -48,13 +74,4 @@ for C=[1,2,4,8,16,32]
     save(['savedata/error_C=',num2str(C),'&M=',num2str(0),'.mat'],'error');
 end
 
-% for FG=1:1:1
-%     load(['savedata/MuSigma_C=8M=',num2str(FG),'.mat'],'mu_FG', 'sigma_FG', 'weight_FG');
-%     for BG=1:1:1
-%         disp(['Start with FG=',num2str(FG),',BG=',num2str(BG)]);
-%         load(['savedata/MuSigma_C=8M=',num2str(BG),'.mat'],'mu_BG', 'sigma_BG', 'weight_BG');
-%         error = fun_BDR(T, weight_BG, weight_FG, mu_BG, mu_FG, sigma_BG, sigma_FG);
-%         save(['savedata/error_FG=',num2str(FG),'&BG=',num2str(BG),'.mat'],'error');
-%     end
-% end
-
+toc;
